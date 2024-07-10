@@ -1,7 +1,9 @@
-import { Button } from "./components/ui/button"
+import { Home } from "./components/home/Home"
 
 export const App = () => {
   return (
-    <div> </div>
+    <div>
+      <Home />
+    </div>
   )
 }

@@ -18,7 +18,8 @@
     },
     extend: {
       backgroundImage: {
-        'bg-color1': 'linear-gradient(45deg, rgba(255,164,80,1) 0%, rgba(255,92,0,1) 60%)'
+        'bg-color1': 'linear-gradient(45deg, rgba(255,164,80,1) 0%, rgba(255,92,0,1) 60%)',
+        'bg-color2': 'linear-gradient(45deg, rgba(55,200,113,1) 0%, rgba(95,227,148,1) 100%)',
       },
       colors: {
         color1: '#F56132',
@@ -55,6 +56,9 @@
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      fontFamily: {
+       nunito: ["Nunito", "sans-serif"]
       },
       keyframes: {
         "accordion-down": {
