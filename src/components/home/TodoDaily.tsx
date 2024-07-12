@@ -14,6 +14,8 @@ import {
     DialogTrigger,
 } from "../ui/dialog"
 import { Trash2 } from "lucide-react";
+import { TodoGraphic } from "./TodoGraphic";
+import { Button } from "../ui/button";
 
 type CustomCheckboxProps = {
     id: number
@@ -87,10 +89,7 @@ const TodoDailyItem: React.FC<TodoDailyItemProps> = ({ item, handleCheckboxChang
 }
 export const TodoDaily = () => {
     const [title, setTitle] = useState<string>("")
-    const [items, setItems] = useState<TodoItem[]>([
-        { id: 1, text: "Item 1", isChecked: false },
-        { id: 2, text: "Item 2", isChecked: false },
-        { id: 3, text: "Item 3", isChecked: false },])
+    const [items, setItems] = useState<TodoItem[]>([])
 
     const handleCheckboxChange = (id: number) => {
         setItems(items.map(item => item.id === id ? { ...item, isChecked: !item.isChecked } : item))
@@ -111,8 +110,12 @@ export const TodoDaily = () => {
         setItems([...items, newItem])
         setTitle('')
     }
+
+    const completedTodos = items.filter(item => item.isChecked).length
+    const totalTodos = items.length
     return (
-        <div className="max-w-md mx-auto my-8">
+        <div className="flex flex-col-reverse gap-8">
+        <div className="max-w-md">
             <div className="flex justify-between mb-4">
                 <h2 className="text-xl font-semibold">Today Habit</h2>
                 <Dialog>
@@ -125,7 +128,7 @@ export const TodoDaily = () => {
                             <DialogTitle>Add a new To-do</DialogTitle>
                         </DialogHeader>
                         <div className="flex items-center gap-4">
-                            <label htmlFor="title" className="text-right font-medium">Title:</label>
+                            <label htmlFor="title" className="text-right font-medium">Habit Name</label>
                             <input
                                 id="title"
                                 type="text"
@@ -136,15 +139,14 @@ export const TodoDaily = () => {
                                 className="border-gray-400 border-solid border-2 rounded-sm p-0.5" />
                         </div>
                         <DialogFooter>
-                            <button
+                            <Button
                                 onClick={handleAddTodoItem}
                                 type="button"
-                                className="bg-bg-color2 items-center px-3 rounded-sm flex gap-1 text-white"
+                                className="items-center px-3 rounded-sm flex gap-1 text-white"
                                 disabled={!title}
                             >
-                                <PlusCircleIcon size={16} />
-                                <span>Add</span>
-                            </button>
+                                <span>Create New</span>
+                            </Button>
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
@@ -154,6 +156,8 @@ export const TodoDaily = () => {
                     <TodoDailyItem key={item.id} item={item} handleCheckboxChange={handleCheckboxChange} onDelete={handleDeleteItem} />
                 ))}
             </ul>
+        </div>
+            <TodoGraphic completed={completedTodos} total={totalTodos}/> 
         </div>
     );
 };
