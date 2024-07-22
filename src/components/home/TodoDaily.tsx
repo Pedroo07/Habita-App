@@ -72,7 +72,7 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ id, isChecked, handleCh
 const TodoDailyItem: React.FC<TodoDailyItemProps> = ({ item, handleCheckboxChange, onDelete }) => {
     return (
         <li
-            className={`w-full py-3 rounded px-1 flex justify-between items-center transition-colors ${item.isChecked ? 'bg-green-100' : 'bg-gray-100'}`}
+            className={`w-full py-3 rounded px-1 flex justify-between items-center transition-colors ${item.isChecked ? 'bg-green-100' : 'bg-gray-200'}`}
         >
             <span className={`font-semibold ${item.isChecked ? 'text-green-500' : ''}`}>{item.text}</span>
             <span className="flex items-center">

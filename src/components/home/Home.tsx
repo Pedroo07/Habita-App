@@ -1,3 +1,4 @@
+import { Goals } from "./Goals";
 import { TodoDaily } from "./TodoDaily"
 
 export const Home = () => {
@@ -10,9 +11,12 @@ export const Home = () => {
   const year = now.getFullYear()
 
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <h4 className="font-semibold">{dayOfWeek}, {day} {month} {year}</h4>
-      <TodoDaily />
+    <div className="flex justify-around">
+      <div className="flex flex-col gap-4 p-4">
+        <h4 className="font-semibold">{dayOfWeek}, {day} {month} {year}</h4>
+        <TodoDaily />
+      </div>
+      <Goals/>
     </div>
   )
 }

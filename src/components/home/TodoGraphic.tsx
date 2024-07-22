@@ -10,8 +10,8 @@ export const TodoGraphic: React.FC<TodoGrapicProps> = ({ completed, total }) => 
     const percentage = total > 0 ? (completed / total) * 100 : 0
 
     return (
-        <div className="bg-bg-color1 flex justify-around max-w-96  items-center rounded">
-            <div className='w-40 h-40 p-3 '>
+        <div className="bg-bg-color1 flex justify-around max-w-[550px] pt-10 items-center rounded-md">
+            <div className='w-40 h-40 p-2 '>
                 <CircularProgressbar
                     value={percentage}
                     text={`${percentage.toFixed(0)}%`}
