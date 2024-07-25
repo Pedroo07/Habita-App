@@ -80,7 +80,7 @@ const TodoDailyItem: React.FC<TodoDailyItemProps> = ({ item, handleCheckboxChang
                 <DropdownMenu>
                     <DropdownMenuTrigger><EllipsisVertical size={18} className="text-slate-600 ml-2 cursor-pointer" /></DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <DropdownMenuItem className="justify-center" onClick={() => onDelete(item.id)}><Trash2 size={18} /></DropdownMenuItem>
+                        <DropdownMenuItem className="justify-center" onClick={() => onDelete(item.id)}><Trash2 size={18} className="cursor-pointer"/></DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </span>
@@ -115,49 +115,49 @@ export const TodoDaily = () => {
     const totalTodos = items.length
     return (
         <div className="flex flex-col-reverse gap-8">
-        <div className="max-w-md">
-            <div className="flex justify-between mb-4">
-                <h2 className="text-xl font-semibold">Today Habit</h2>
-                <Dialog>
-                    <DialogTrigger>
-                        <button className="bg-bg-color2 rounded-full h-7 w-7 items-center justify-center flex text-white"><PlusCircleIcon className="w-full h-full" />
-                        </button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogHeader>
-                            <DialogTitle>Add a new To-do</DialogTitle>
-                        </DialogHeader>
-                        <div className="flex items-center gap-4">
-                            <label htmlFor="title" className="text-right font-medium">Habit Name</label>
-                            <input
-                                id="title"
-                                type="text"
-                                placeholder="Add new todo item..."
-                                value={title}
-                                autoFocus={true}
-                                onChange={handleTitleChange}
-                                className="border-gray-400 border-solid border-2 rounded-sm p-0.5" />
-                        </div>
-                        <DialogFooter>
-                            <Button
-                                onClick={handleAddTodoItem}
-                                type="button"
-                                className="items-center px-3 rounded-sm flex gap-1 text-white"
-                                disabled={!title}
-                            >
-                                <span>Create New</span>
-                            </Button>
-                        </DialogFooter>
-                    </DialogContent>
-                </Dialog>
+            <div className="max-w-md">
+                <div className="flex justify-between mb-4">
+                    <h2 className="text-xl font-semibold">Today Habit</h2>
+                    <Dialog>
+                        <DialogTrigger>
+                            <button className="bg-bg-color2 rounded-full h-7 w-7 items-center justify-center flex text-white"><PlusCircleIcon className="w-full h-full" />
+                            </button>
+                        </DialogTrigger>
+                        <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Add a new To-do</DialogTitle>
+                            </DialogHeader>
+                            <div className="flex items-center gap-4">
+                                <label htmlFor="title" className="text-right font-medium">Habit Name</label>
+                                <input
+                                    id="title"
+                                    type="text"
+                                    placeholder="Add new todo item..."
+                                    value={title}
+                                    autoFocus={true}
+                                    onChange={handleTitleChange}
+                                    className="border-gray-400 border-solid border-2 rounded-sm p-0.5" />
+                            </div>
+                            <DialogFooter>
+                                <Button
+                                    onClick={handleAddTodoItem}
+                                    type="button"
+                                    className="items-center px-3 rounded-sm flex gap-1 text-white"
+                                    disabled={!title}
+                                >
+                                    <span>Create New</span>
+                                </Button>
+                            </DialogFooter>
+                        </DialogContent>
+                    </Dialog>
+                </div>
+                <ul className="flex flex-col gap-2 items-center text-start">
+                    {items.map(item => (
+                        <TodoDailyItem key={item.id} item={item} handleCheckboxChange={handleCheckboxChange} onDelete={handleDeleteItem} />
+                    ))}
+                </ul>
             </div>
-            <ul className="flex flex-col gap-2 items-center text-start">
-                {items.map(item => (
-                    <TodoDailyItem key={item.id} item={item} handleCheckboxChange={handleCheckboxChange} onDelete={handleDeleteItem} />
-                ))}
-            </ul>
-        </div>
-            <TodoGraphic completed={completedTodos} total={totalTodos}/> 
+            <TodoGraphic completed={completedTodos} total={totalTodos} />
         </div>
     );
 };
