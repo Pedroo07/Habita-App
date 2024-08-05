@@ -8,21 +8,22 @@ export type Item = {
     id: number
     text: string
     timer: number
+    date: Date
 }
 
 type GoalItemPops = {
     item: Item
     onDelete: (id: number) => void
-    date: Date
+    
 }
 
-export const GoalItem: React.FC<GoalItemPops> = ({ item, onDelete, date }) => {
+export const GoalItem: React.FC<GoalItemPops> = ({ item, onDelete}) => {
     const [timeAgo, setTimeAgo] = useState<string>('')
     const [progress, setProgess] = useState<number>(0)
 
     const caulculateProgress = () => {
         const now = new Date()
-        const minutesElapesd = differenceInMinutes(now, date)
+        const minutesElapesd = differenceInMinutes(now, item.date)
         const goalTimeInMinutes = item.timer * 24 * 60
         const percentage = (minutesElapesd / goalTimeInMinutes) * 100
         setProgess(percentage)
@@ -33,12 +34,12 @@ export const GoalItem: React.FC<GoalItemPops> = ({ item, onDelete, date }) => {
         const intervalId = setInterval(caulculateProgress, 60000)
 
         return () => clearInterval(intervalId)
-    }, [date, item.timer])
+    }, [item.date, item.timer])
 
     useEffect(() => {
 
         const caulculateTimeAgo = () => {
-            const timePassed = formatDistanceToNow(date, {
+            const timePassed = formatDistanceToNow(item.date, {
                 addSuffix: true,
                 locale: ptBR
             })
@@ -48,7 +49,7 @@ export const GoalItem: React.FC<GoalItemPops> = ({ item, onDelete, date }) => {
         const intevalId = setInterval(caulculateTimeAgo, 60000)
 
         return () => clearInterval(intevalId)
-    }, [date])
+    }, [item.date])
     return (
         <section className="m-4 p-2 font-semibold bg-white rounded-md w-80 flex gap-2">
             <div>

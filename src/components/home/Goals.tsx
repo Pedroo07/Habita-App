@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { GoalItem } from './GoalItem'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { Button } from '../ui/button'
@@ -8,11 +8,20 @@ import { PlusCircleIcon } from 'lucide-react'
     id: number
     text: string
     timer: number
+    date: Date
 }
-export const Goals = () => {
+export const Goals:React.FC<GoalItemProps> = () => {
     const  [title, setTitle] = useState<string>("")
     const [goalTime, setGoalTime] = useState<number>(0)
-    const [items, setItems] = useState<GoalItemProps[]>([])
+    const [items, setItems] = useState<GoalItemProps[]>(() => {
+        const itemsOnStorage = localStorage.getItem("items")
+
+        if (itemsOnStorage) return JSON.parse(itemsOnStorage)
+
+            return []
+    })
+
+    
 
     const handleTitleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const newValue = event.target.value
@@ -24,20 +33,27 @@ export const Goals = () => {
     }
 
     const handleDeleteItem = (id: number) => {
-        setItems(items.filter(item => item.id !== id));
+        const ItemArray = items.filter(item => {
+            return item.id !== id
+        });
+        setItems(ItemArray)
+        
+        localStorage.setItem('items', JSON.stringify(ItemArray))
     }
 
     const handleAddNewItem = () => {
         const  newItem : GoalItemProps = {
             timer: goalTime,
             text: title,
-            id: items.length + 1
+            id: items.length + 1,
+            date: new Date()
         }
-        setItems([...items, newItem])
+        const ItemArray = [newItem, ...items]
+        setItems(ItemArray)
         setTitle('')
         setGoalTime(0)
+        localStorage.setItem('items', JSON.stringify(ItemArray))
     }
-    const createdAt = new Date()
     return (
         <div>
             <div className="flex justify-between w-80">
@@ -87,7 +103,7 @@ export const Goals = () => {
             </div>
             <ul className="flex flex-col gap-2 items-center text-start">
                 {items.map((item => (
-                    <GoalItem key={item.id}  item={item} onDelete={handleDeleteItem} date={createdAt}  />
+                    <GoalItem key={item.id}  item={item} onDelete={handleDeleteItem}  />
                 )))}
                 
             </ul>
