@@ -10,7 +10,7 @@ import { PlusCircleIcon } from 'lucide-react'
     timer: number
     date: Date
 }
-export const Goals:React.FC<GoalItemProps> = () => {
+export const Goals:React.FC = () => {
     const  [title, setTitle] = useState<string>("")
     const [goalTime, setGoalTime] = useState<number>(0)
     const [items, setItems] = useState<GoalItemProps[]>(() => {
