@@ -1,5 +1,5 @@
 import { EllipsisVertical, PlusCircleIcon } from "lucide-react";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent , useState } from "react";
 import {
     DropdownMenu, DropdownMenuContent,
     DropdownMenuItem,
@@ -80,22 +80,30 @@ const TodoDailyItem: React.FC<TodoDailyItemProps> = ({ item, handleCheckboxChang
                 <DropdownMenu>
                     <DropdownMenuTrigger><EllipsisVertical size={18} className="text-slate-600 ml-2 cursor-pointer" /></DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <DropdownMenuItem className="justify-center" onClick={() => onDelete(item.id)}><Trash2 size={18} className="cursor-pointer"/></DropdownMenuItem>
+                        <DropdownMenuItem className="justify-center" onClick={() => onDelete(item.id)}><Trash2 size={18} className="cursor-pointer" /></DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </span>
         </li>
     )
 }
-export const TodoDaily = () => {
+export const TodoDaily: React.FC = () => {
     const [title, setTitle] = useState<string>("")
-    const [items, setItems] = useState<TodoItem[]>([])
+    const [items, setItems] = useState<TodoItem[]>(() => {
+        const itemsOnStorage = localStorage.getItem('items')
+
+        if (itemsOnStorage) return JSON.parse(itemsOnStorage)
+
+        return []
+    })
 
     const handleCheckboxChange = (id: number) => {
         setItems(items.map(item => item.id === id ? { ...item, isChecked: !item.isChecked } : item))
     }
     const handleDeleteItem = (id: number) => {
-        setItems(items.filter(item => item.id !== id));
+        const itemsOnArray = items.filter(item => item.id !== id);
+        setItems(itemsOnArray)
+        localStorage.setItem('items', JSON.stringify(itemsOnArray))
     }
     const handleTitleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const newValue = event.target.value
@@ -107,8 +115,10 @@ export const TodoDaily = () => {
             text: title,
             isChecked: false
         }
-        setItems([...items, newItem])
+        const ItemArray = [newItem, ...items]
+        setItems(ItemArray)
         setTitle('')
+        localStorage.setItem('items', JSON.stringify(ItemArray))
     }
 
     const completedTodos = items.filter(item => item.isChecked).length
