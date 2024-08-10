@@ -14,7 +14,7 @@ export const Goals:React.FC = () => {
     const  [title, setTitle] = useState<string>("")
     const [goalTime, setGoalTime] = useState<number>(0)
     const [items, setItems] = useState<GoalItemProps[]>(() => {
-        const itemsOnStorage = localStorage.getItem("todos")
+        const itemsOnStorage = localStorage.getItem("items")
 
         if (itemsOnStorage) return JSON.parse(itemsOnStorage)
 
@@ -38,7 +38,7 @@ export const Goals:React.FC = () => {
         });
         setItems(ItemArray)
         
-        localStorage.setItem('todos', JSON.stringify(ItemArray))
+        localStorage.setItem('items', JSON.stringify(ItemArray))
     }
 
     const handleAddNewItem = () => {
@@ -52,7 +52,7 @@ export const Goals:React.FC = () => {
         setItems(ItemArray)
         setTitle('')
         setGoalTime(0)
-        localStorage.setItem('todos', JSON.stringify(ItemArray))
+        localStorage.setItem('items', JSON.stringify(ItemArray))
     }
     return (
         <div>

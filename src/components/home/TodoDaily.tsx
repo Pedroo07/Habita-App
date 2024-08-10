@@ -1,5 +1,5 @@
 import { EllipsisVertical, PlusCircleIcon } from "lucide-react";
-import React, { ChangeEvent , useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import {
     DropdownMenu, DropdownMenuContent,
     DropdownMenuItem,
@@ -90,7 +90,7 @@ const TodoDailyItem: React.FC<TodoDailyItemProps> = ({ item, handleCheckboxChang
 export const TodoDaily: React.FC = () => {
     const [title, setTitle] = useState<string>("")
     const [items, setItems] = useState<TodoItem[]>(() => {
-        const itemsOnStorage = localStorage.getItem('items')
+        const itemsOnStorage = localStorage.getItem('todos')
 
         if (itemsOnStorage) return JSON.parse(itemsOnStorage)
 
@@ -98,12 +98,14 @@ export const TodoDaily: React.FC = () => {
     })
 
     const handleCheckboxChange = (id: number) => {
-        setItems(items.map(item => item.id === id ? { ...item, isChecked: !item.isChecked } : item))
+        const itemIsChecked = items.map(item => item.id === id ? { ...item, isChecked: !item.isChecked } : item)
+        setItems(itemIsChecked)
+        localStorage.setItem('todos', JSON.stringify(itemIsChecked))
     }
     const handleDeleteItem = (id: number) => {
         const itemsOnArray = items.filter(item => item.id !== id);
         setItems(itemsOnArray)
-        localStorage.setItem('items', JSON.stringify(itemsOnArray))
+        localStorage.setItem('todos', JSON.stringify(itemsOnArray))
     }
     const handleTitleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const newValue = event.target.value
@@ -118,8 +120,23 @@ export const TodoDaily: React.FC = () => {
         const ItemArray = [newItem, ...items]
         setItems(ItemArray)
         setTitle('')
-        localStorage.setItem('items', JSON.stringify(ItemArray))
+        localStorage.setItem('todos', JSON.stringify(ItemArray))
     }
+    const getTodayDate = () => {
+        const today = new Date()
+        return today.toISOString().split('T')[0]
+    }
+    function checkAndResetTasks() {
+        const today = getTodayDate()
+        const storedDate = localStorage.getItem('lastUpdateDate')
+
+        if (storedDate !== today) {
+             setItems([])
+            localStorage.setItem('todos', JSON.stringify([]))
+            localStorage.setItem('lastUpdateDate', today)
+        }
+    }
+    checkAndResetTasks()
 
     const completedTodos = items.filter(item => item.isChecked).length
     const totalTodos = items.length
