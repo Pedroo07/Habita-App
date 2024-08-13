@@ -4,31 +4,31 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 import { Button } from '../ui/button'
 import { PlusCircleIcon } from 'lucide-react'
 
- type GoalItemProps = {
+type GoalItemProps = {
     id: number
     text: string
     timer: number
     date: Date
 }
-export const Goals:React.FC = () => {
-    const  [title, setTitle] = useState<string>("")
+export const Goals: React.FC = () => {
+    const [title, setTitle] = useState<string>("")
     const [goalTime, setGoalTime] = useState<number>(0)
     const [items, setItems] = useState<GoalItemProps[]>(() => {
         const itemsOnStorage = localStorage.getItem("items")
 
         if (itemsOnStorage) return JSON.parse(itemsOnStorage)
 
-            return []
+        return []
     })
 
-    
+
 
     const handleTitleChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const newValue = event.target.value
         setTitle(newValue)
     }
     const handleGoalTimeChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const newValue  = +event.target.value
+        const newValue = +event.target.value
         setGoalTime(newValue)
     }
 
@@ -37,22 +37,24 @@ export const Goals:React.FC = () => {
             return item.id !== id
         });
         setItems(ItemArray)
-        
+
         localStorage.setItem('items', JSON.stringify(ItemArray))
     }
 
     const handleAddNewItem = () => {
-        const  newItem : GoalItemProps = {
-            timer: goalTime,
-            text: title,
-            id: items.length + 1,
-            date: new Date()
-        }
-        const ItemArray = [newItem, ...items]
-        setItems(ItemArray)
-        setTitle('')
-        setGoalTime(0)
-        localStorage.setItem('items', JSON.stringify(ItemArray))
+            const newItem: GoalItemProps = {
+                timer: goalTime,
+                text: title,
+                id: items.length + 1,
+                date: new Date()
+            }
+            const ItemArray = [newItem, ...items]
+            setItems(ItemArray)
+            setTitle('')
+            setGoalTime(0)
+            localStorage.setItem('items', JSON.stringify(ItemArray)) 
+        
+
     }
     return (
         <div>
@@ -93,7 +95,7 @@ export const Goals:React.FC = () => {
                                 onClick={handleAddNewItem}
                                 type="button"
                                 className="items-center px-3 rounded-sm flex gap-1 text-white"
-                                disabled={!title}
+                                disabled={!title || !goalTime }
                             >
                                 <span>Create New</span>
                             </Button>
@@ -103,9 +105,9 @@ export const Goals:React.FC = () => {
             </div>
             <ul className="flex flex-col gap-2 items-center text-start max-md:items-start">
                 {items.map((item => (
-                    <GoalItem key={item.id}  item={item} onDelete={handleDeleteItem}  />
+                    <GoalItem key={item.id} item={item} onDelete={handleDeleteItem} />
                 )))}
-                
+
             </ul>
         </div>
     )
