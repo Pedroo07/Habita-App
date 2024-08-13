@@ -101,7 +101,7 @@ export const Goals:React.FC = () => {
                     </DialogContent>
                 </Dialog>
             </div>
-            <ul className="flex flex-col gap-2 items-center text-start">
+            <ul className="flex flex-col gap-2 items-center text-start max-md:items-start">
                 {items.map((item => (
                     <GoalItem key={item.id}  item={item} onDelete={handleDeleteItem}  />
                 )))}

@@ -1,6 +1,6 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { differenceInMinutes, formatDistanceToNow } from "date-fns"
-import { ptBR } from "date-fns/locale"
+import { enUS} from "date-fns/locale"
 import { EllipsisVertical, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
 
@@ -41,7 +41,7 @@ export const GoalItem: React.FC<GoalItemPops> = ({ item, onDelete}) => {
         const caulculateTimeAgo = () => {
             const timePassed = formatDistanceToNow(item.date, {
                 addSuffix: true,
-                locale: ptBR
+                locale: enUS
             })
             setTimeAgo(timePassed)
         }

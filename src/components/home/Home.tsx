@@ -11,7 +11,7 @@ export const Home = () => {
   const year = now.getFullYear()
 
   return (
-    <div className="flex justify-around">
+    <div className="flex justify-around max-md:flex-col-reverse max-md:items-center">
       <div className="flex flex-col gap-4 p-4">
         <h4 className="font-semibold">{dayOfWeek}, {day} {month} {year}</h4>
         <TodoDaily />
